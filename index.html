@@ -6,35 +6,35 @@
 <title>Tabla Periodica y Enlaces Quimicos</title>
 <style>
 *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-body{margin:0;background:#0d0e11;color:#f3f4f6;padding:14px}
-.app{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
+.app{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
 .hdr{display:flex;align-items:center;gap:10px}
 .hdr img{width:34px;height:34px;border-radius:8px;object-fit:contain;background:#181a1f;padding:2px}
-.hdr h1{margin:0;font-size:1.3rem;font-weight:700;letter-spacing:-.2px}
-.search{width:100%;background:transparent;border:none;border-bottom:1px solid #2b2f36;color:#d1d5db;padding:8px 4px;font-size:.98rem;outline:none}
+.hdr h1{margin:0;font-size:clamp(1.05rem,4vw,1.35rem);font-weight:700;letter-spacing:-.2px}
+.search{width:100%;background:transparent;border:none;border-bottom:1px solid #2b2f36;color:#d1d5db;padding:8px 4px;font-size:.95rem;outline:none}
 .search:focus{border-bottom-color:#60a5fa}
 .confirm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn-c{background:#181a1f;color:#f3f4f6;border:1px solid #262930;border-radius:14px;padding:11px 12px;font-size:.95rem;font-weight:600;cursor:pointer}
+.btn-c{background:#181a1f;color:#f3f4f6;border:1px solid #262930;border-radius:14px;padding:11px 10px;font-size:.92rem;font-weight:600;cursor:pointer}
 .btn-c:hover{border-color:#4b5563}
 .card{background:#14161a;border:1px solid #262930;border-radius:12px;padding:12px 14px}
 .status-box{min-height:62px;display:flex;flex-direction:column;justify-content:center;gap:4px}
 .status-title{font-weight:700;font-size:1rem}
-.info-top{display:flex;align-items:center;gap:8px;font-size:1.15rem;font-weight:700}
-.ring{width:14px;height:14px;border-radius:50%;border:2.5px solid #e5e7eb;display:inline-block}
-.meta{color:#d1d5db;font-size:.92rem;margin-top:4px}
-.desc{color:#9ca3af;font-size:.92rem;margin-top:4px;line-height:1.35}
+.info-top{display:flex;align-items:center;gap:8px;font-size:1.12rem;font-weight:700}
+.ring{width:13px;height:13px;border-radius:50%;border:2.5px solid #e5e7eb;display:inline-block;flex-shrink:0}
+.meta{color:#d1d5db;font-size:.9rem;margin-top:4px}
+.desc{color:#9ca3af;font-size:.9rem;margin-top:4px;line-height:1.35}
 .slot{border-radius:12px;padding:12px 14px;background:#121418}
 .slot-1{border:1.5px solid #22c55e}
 .slot-2{border:1.5px solid #eab308}
-.slot-title{font-weight:700;font-size:1.05rem;margin-bottom:4px}
-.slot-sub{font-weight:600;font-size:.95rem}
-.slot-hint{color:#9ca3af;font-size:.88rem;margin-top:2px}
-.pt-scroll{overflow-x:auto;padding-bottom:6px}
-.pt-board{min-width:780px;display:flex;flex-direction:column;gap:5px}
-.pt-row{display:grid;grid-template-columns:repeat(18,minmax(38px,1fr));gap:5px}
-.pt-spacer{height:52px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:.78rem;font-weight:600}
-.pt-gap{height:10px}
-.el-tile{height:52px;border-radius:7px;border:1px solid #2b303a;padding:4px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#f3f4f6;transition:transform .08s ease,border-color .12s ease}
+.slot-title{font-weight:700;font-size:1.02rem;margin-bottom:4px}
+.slot-sub{font-weight:600;font-size:.94rem}
+.slot-hint{color:#9ca3af;font-size:.86rem;margin-top:2px}
+.pt-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.pt-board{min-width:680px;display:flex;flex-direction:column;gap:4px}
+.pt-row{display:grid;grid-template-columns:repeat(18,minmax(34px,1fr));gap:4px}
+.pt-spacer{height:46px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:.72rem;font-weight:600}
+.pt-gap{height:8px}
+.el-tile{height:46px;border-radius:7px;border:1px solid #2b303a;padding:3px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#f3f4f6;transition:transform .08s ease,border-color .12s ease}
 .el-tile:hover{transform:translateY(-1px);border-color:#e5e7eb}
 .el-tile.cat-metal{background:#1b2028;border-color:#2c3440}
 .el-tile.cat-nonmetal{background:#2d2116;border-color:#4a3522}
@@ -43,8 +43,17 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:14px}
 .el-tile.active{background:#f3f4f6;color:#111317;border-color:#ffffff}
 .el-tile.active .el-z{color:#374151}
 .el-tile.dim{opacity:.22}
-.el-z{font-size:.66rem;color:#cbd5e1;line-height:1;margin-bottom:2px}
-.el-s{font-size:.98rem;font-weight:700;line-height:1.1}
+.el-z{font-size:.62rem;color:#cbd5e1;line-height:1;margin-bottom:2px}
+.el-s{font-size:.9rem;font-weight:700;line-height:1.1}
+@media (max-width:520px){
+  body{padding:10px}
+  .confirm-row{gap:8px}
+  .btn-c{padding:10px 8px;font-size:.86rem}
+  .pt-board{min-width:612px}
+  .pt-row{grid-template-columns:repeat(18,minmax(30px,1fr));gap:3px}
+  .el-tile,.pt-spacer{height:42px}
+  .el-s{font-size:.82rem}
+}
 </style>
 </head>
 <body>
@@ -86,8 +95,6 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:14px}
 </div>
 
 <script>
-// [z, symbol, name, weight, cat, en, val, desc, row, col]
-// cat: m=metal, nm=no metal/halogeno, mt=metaloide/semiconductor, ng=gas noble
 const RAW = [
   [1,"H","Hidrogeno",1.008,"nm",2.20,1,"No metal ligero y abundante.",1,1],
   [2,"He","Helio",4.0026,"ng",0.0,0,"Gas noble inerte y muy ligero.",1,18],
