@@ -6,35 +6,45 @@
 <title>Tabla Periodica y Enlaces Quimicos</title>
 <style>
 *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-body{margin:0;background:#111214;color:#f3f4f6;padding:14px}
-.app{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+body{margin:0;background:#0d0e11;color:#f3f4f6;padding:14px}
+.app{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
 .hdr{display:flex;align-items:center;gap:10px}
-.hdr img{width:34px;height:34px;border-radius:8px;object-fit:contain;background:#1b1d21;padding:2px}
+.hdr img{width:34px;height:34px;border-radius:8px;object-fit:contain;background:#181a1f;padding:2px}
 .hdr h1{margin:0;font-size:1.3rem;font-weight:700;letter-spacing:-.2px}
 .search{width:100%;background:transparent;border:none;border-bottom:1px solid #2b2f36;color:#d1d5db;padding:8px 4px;font-size:.98rem;outline:none}
 .search:focus{border-bottom-color:#60a5fa}
 .confirm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn-c{background:#181a1f;color:#f3f4f6;border:1px solid #262930;border-radius:14px;padding:11px 12px;font-size:.95rem;font-weight:600;cursor:pointer}
 .btn-c:hover{border-color:#4b5563}
-.card{background:#15171b;border:1px solid #262930;border-radius:12px;padding:12px 14px}
-.status-box{min-height:66px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.card{background:#14161a;border:1px solid #262930;border-radius:12px;padding:12px 14px}
+.status-box{min-height:62px;display:flex;flex-direction:column;justify-content:center;gap:4px}
 .status-title{font-weight:700;font-size:1rem}
 .info-top{display:flex;align-items:center;gap:8px;font-size:1.15rem;font-weight:700}
 .ring{width:14px;height:14px;border-radius:50%;border:2.5px solid #e5e7eb;display:inline-block}
 .meta{color:#d1d5db;font-size:.92rem;margin-top:4px}
 .desc{color:#9ca3af;font-size:.92rem;margin-top:4px;line-height:1.35}
-.slot{border-radius:12px;padding:12px 14px;background:#14171a}
+.slot{border-radius:12px;padding:12px 14px;background:#121418}
 .slot-1{border:1.5px solid #22c55e}
 .slot-2{border:1.5px solid #eab308}
 .slot-title{font-weight:700;font-size:1.05rem;margin-bottom:4px}
 .slot-sub{font-weight:600;font-size:.95rem}
 .slot-hint{color:#9ca3af;font-size:.88rem;margin-top:2px}
-.pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:6px;margin-top:4px}
-.el-cell{background:#181a1f;border:1px solid #262930;border-radius:8px;padding:6px 4px;text-align:center;cursor:pointer;color:#f3f4f6}
-.el-cell:hover{border-color:#60a5fa}
-.el-cell.sel{outline:2px solid #38bdf8}
-.el-z{font-size:.7rem;color:#9ca3af;line-height:1}
-.el-s{font-size:1.05rem;font-weight:700;line-height:1.25}
+.pt-scroll{overflow-x:auto;padding-bottom:6px}
+.pt-board{min-width:780px;display:flex;flex-direction:column;gap:5px}
+.pt-row{display:grid;grid-template-columns:repeat(18,minmax(38px,1fr));gap:5px}
+.pt-spacer{height:52px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:.78rem;font-weight:600}
+.pt-gap{height:10px}
+.el-tile{height:52px;border-radius:7px;border:1px solid #2b303a;padding:4px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#f3f4f6;transition:transform .08s ease,border-color .12s ease}
+.el-tile:hover{transform:translateY(-1px);border-color:#e5e7eb}
+.el-tile.cat-metal{background:#1b2028;border-color:#2c3440}
+.el-tile.cat-nonmetal{background:#2d2116;border-color:#4a3522}
+.el-tile.cat-metalloid{background:#152b22;border-color:#23493a}
+.el-tile.cat-noble{background:#182738;border-color:#28415e}
+.el-tile.active{background:#f3f4f6;color:#111317;border-color:#ffffff}
+.el-tile.active .el-z{color:#374151}
+.el-tile.dim{opacity:.22}
+.el-z{font-size:.66rem;color:#cbd5e1;line-height:1;margin-bottom:2px}
+.el-s{font-size:.98rem;font-weight:700;line-height:1.1}
 </style>
 </head>
 <body>
@@ -70,55 +80,156 @@ body{margin:0;background:#111214;color:#f3f4f6;padding:14px}
     <div id="s2Hint" class="slot-hint">Toca un elemento y pulsa 'Confirmar Elem 2'.</div>
   </div>
 
-  <div id="pt" class="pt-grid"></div>
+  <div class="pt-scroll">
+    <div id="ptBoard" class="pt-board"></div>
+  </div>
 </div>
 
 <script>
-const ELS = [
-  {z:1,s:"H",n:"Hidrogeno",w:1.008,t:"No metal",semi:"-",en:2.20,v:1,d:"Elemento mas ligero y abundante del universo."},
-  {z:3,s:"Li",n:"Litio",w:6.94,t:"Metal alcalino",semi:"-",en:0.98,v:1,d:"Metal blando plateado usado en baterias."},
-  {z:4,s:"Be",n:"Berilio",w:9.012,t:"Metal alcalinoterreo",semi:"-",en:1.57,v:2,d:"Metal ligero y rigido con alto punto de fusion."},
-  {z:6,s:"C",n:"Carbono",w:12.011,t:"No metal",semi:"-",en:2.55,v:4,d:"Base de la quimica organica y formas alotropicas."},
-  {z:7,s:"N",n:"Nitrogeno",w:14.007,t:"No metal",semi:"-",en:3.04,v:3,d:"Gas principal de la atmosfera terrestre."},
-  {z:8,s:"O",n:"Oxigeno",w:15.999,t:"No metal",semi:"-",en:3.44,v:2,d:"No metal reactivo esencial para la respiracion y la combustion."},
-  {z:9,s:"F",n:"Fluor",w:18.998,t:"Halogeno",semi:"-",en:3.98,v:1,d:"Elemento mas electronegativo y altamente reactivo."},
-  {z:11,s:"Na",n:"Sodio",w:22.990,t:"Metal alcalino",semi:"-",en:0.93,v:1,d:"Metal alcalino muy reactivo en agua."},
-  {z:12,s:"Mg",n:"Magnesio",w:24.305,t:"Metal alcalinoterreo",semi:"-",en:1.31,v:2,d:"Metal ligero presente en clorofila y aleaciones."},
-  {z:13,s:"Al",n:"Aluminio",w:26.982,t:"Metal del bloque p",semi:"-",en:1.61,v:3,d:"Metal ligero, resistente a la corrosion y conductor."},
-  {z:14,s:"Si",n:"Silicio",w:28.085,t:"Metaloide",semi:"Si",en:1.90,v:4,d:"Semiconductor fundamental en electronica."},
-  {z:15,s:"P",n:"Fosforo",w:30.974,t:"No metal",semi:"-",en:2.19,v:3,d:"No metal esencial en biomoleculas y fertilizantes."},
-  {z:16,s:"S",n:"Azufre",w:32.06,t:"No metal",semi:"-",en:2.58,v:2,d:"No metal amarillo conocido desde la antiguedad."},
-  {z:17,s:"Cl",n:"Cloro",w:35.45,t:"Halogeno",semi:"-",en:3.16,v:1,d:"Halogeno usado en desinfeccion y sales."},
-  {z:19,s:"K",n:"Potasio",w:39.098,t:"Metal alcalino",semi:"-",en:0.82,v:1,d:"Metal alcalino reactivo y vital en sistemas biologicos."},
-  {z:20,s:"Ca",n:"Calcio",w:40.078,t:"Metal alcalinoterreo",semi:"-",en:1.00,v:2,d:"Metal alcalinoterreo abundante en huesos y rocas."},
-  {z:21,s:"Sc",n:"Escandio",w:44.956,t:"Metal de transicion",semi:"-",en:1.36,v:3,d:"Metal de transicion ligero usado en aleaciones especiales."},
-  {z:22,s:"Ti",n:"Titanio",w:47.867,t:"Metal de transicion",semi:"-",en:1.54,v:4,d:"Metal resistente, ligero y biocompatible."},
-  {z:23,s:"V",n:"Vanadio",w:50.942,t:"Metal de transicion",semi:"-",en:1.63,v:5,d:"Metal de transicion empleado en aceros de alta resistencia."},
-  {z:24,s:"Cr",n:"Cromo",w:51.996,t:"Metal de transicion",semi:"-",en:1.66,v:3,d:"Metal duro y brillante resistente a la oxidacion."},
-  {z:25,s:"Mn",n:"Manganeso",w:54.938,t:"Metal de transicion",semi:"-",en:1.55,v:2,d:"Metal de transicion clave en aleaciones de acero."},
-  {z:26,s:"Fe",n:"Hierro",w:55.845,t:"Metal de transicion",semi:"-",en:1.83,v:2,d:"Metal de transicion base del acero y magnetismo."},
-  {z:27,s:"Co",n:"Cobalto",w:58.933,t:"Metal de transicion",semi:"-",en:1.88,v:2,d:"Metal de transicion usado en imanes y baterias."},
-  {z:28,s:"Ni",n:"Niquel",w:58.693,t:"Metal de transicion",semi:"-",en:1.91,v:2,d:"Metal plateado resistente a la corrosion."},
-  {z:29,s:"Cu",n:"Cobre",w:63.546,t:"Metal de transicion",semi:"-",en:1.90,v:2,d:"Excelente conductor electrico y termico."},
-  {z:30,s:"Zn",n:"Zinc",w:65.38,t:"Metal de transicion",semi:"-",en:1.65,v:2,d:"Metal usado para galvanizar y proteger contra corrosion."},
-  {z:35,s:"Br",n:"Bromo",w:79.904,t:"Halogeno",semi:"-",en:2.96,v:1,d:"Halogeno liquido rojizo a temperatura ambiente."},
-  {z:53,s:"I",n:"Yodo",w:126.90,t:"Halogeno",semi:"-",en:2.66,v:1,d:"Halogeno violeta oscuro relevante en salud y quimica."}
+// [z, symbol, name, weight, cat, en, val, desc, row, col]
+// cat: m=metal, nm=no metal/halogeno, mt=metaloide/semiconductor, ng=gas noble
+const RAW = [
+  [1,"H","Hidrogeno",1.008,"nm",2.20,1,"No metal ligero y abundante.",1,1],
+  [2,"He","Helio",4.0026,"ng",0.0,0,"Gas noble inerte y muy ligero.",1,18],
+  [3,"Li","Litio",6.94,"m",0.98,1,"Metal alcalino blando y ligero.",2,1],
+  [4,"Be","Berilio",9.0122,"m",1.57,2,"Metal alcalinoterreo rigido.",2,2],
+  [5,"B","Boro",10.81,"mt",2.04,3,"Metaloide semiconductor.",2,13],
+  [6,"C","Carbono",12.011,"nm",2.55,4,"No metal base de la quimica organica.",2,14],
+  [7,"N","Nitrogeno",14.007,"nm",3.04,3,"No metal abundante en la atmosfera.",2,15],
+  [8,"O","Oxigeno",15.999,"nm",3.44,2,"No metal reactivo esencial para la respiracion y la combustion.",2,16],
+  [9,"F","Fluor",18.998,"nm",3.98,1,"Halogeno mas electronegativo.",2,17],
+  [10,"Ne","Neon",20.180,"ng",0.0,0,"Gas noble usado en luminaria.",2,18],
+  [11,"Na","Sodio",22.990,"m",0.93,1,"Metal alcalino reactivo.",3,1],
+  [12,"Mg","Magnesio",24.305,"m",1.31,2,"Metal alcalinoterreo ligero.",3,2],
+  [13,"Al","Aluminio",26.982,"m",1.61,3,"Metal ligero y conductor.",3,13],
+  [14,"Si","Silicio",28.085,"mt",1.90,4,"Semiconductor clave en electronica.",3,14],
+  [15,"P","Fosforo",30.974,"nm",2.19,3,"No metal esencial en biomoleculas.",3,15],
+  [16,"S","Azufre",32.06,"nm",2.58,2,"No metal amarillo.",3,16],
+  [17,"Cl","Cloro",35.45,"nm",3.16,1,"Halogeno usado en desinfeccion y sales.",3,17],
+  [18,"Ar","Argon",39.948,"ng",0.0,0,"Gas noble inerte.",3,18],
+  [19,"K","Potasio",39.098,"m",0.82,1,"Metal alcalino reactivo.",4,1],
+  [20,"Ca","Calcio",40.078,"m",1.00,2,"Metal alcalinoterreo.",4,2],
+  [21,"Sc","Escandio",44.956,"m",1.36,3,"Metal de transicion.",4,3],
+  [22,"Ti","Titanio",47.867,"m",1.54,4,"Metal de transicion resistente.",4,4],
+  [23,"V","Vanadio",50.942,"m",1.63,5,"Metal de transicion.",4,5],
+  [24,"Cr","Cromo",51.996,"m",1.66,3,"Metal de transicion duro.",4,6],
+  [25,"Mn","Manganeso",54.938,"m",1.55,2,"Metal de transicion.",4,7],
+  [26,"Fe","Hierro",55.845,"m",1.83,2,"Metal de transicion magnetico.",4,8],
+  [27,"Co","Cobalto",58.933,"m",1.88,2,"Metal de transicion.",4,9],
+  [28,"Ni","Niquel",58.693,"m",1.91,2,"Metal de transicion.",4,10],
+  [29,"Cu","Cobre",63.546,"m",1.90,2,"Metal excelente conductor.",4,11],
+  [30,"Zn","Zinc",65.38,"m",1.65,2,"Metal de transicion.",4,12],
+  [31,"Ga","Galio",69.723,"m",1.81,3,"Metal blando de bajo punto de fusion.",4,13],
+  [32,"Ge","Germanio",72.630,"mt",2.01,4,"Metaloide semiconductor.",4,14],
+  [33,"As","Arsenico",74.922,"mt",2.18,3,"Metaloide.",4,15],
+  [34,"Se","Selenio",78.971,"nm",2.55,2,"No metal.",4,16],
+  [35,"Br","Bromo",79.904,"nm",2.96,1,"Halogeno liquido a temperatura ambiente.",4,17],
+  [36,"Kr","Kripton",83.798,"ng",3.00,2,"Gas noble.",4,18],
+  [37,"Rb","Rubidio",85.468,"m",0.82,1,"Metal alcalino.",5,1],
+  [38,"Sr","Estroncio",87.62,"m",0.95,2,"Metal alcalinoterreo.",5,2],
+  [39,"Y","Itrio",88.906,"m",1.22,3,"Metal de transicion.",5,3],
+  [40,"Zr","Zirconio",91.224,"m",1.33,4,"Metal de transicion.",5,4],
+  [41,"Nb","Niobio",92.906,"m",1.60,5,"Metal de transicion.",5,5],
+  [42,"Mo","Molibdeno",95.95,"m",2.16,6,"Metal de transicion.",5,6],
+  [43,"Tc","Tecnecio",98,"m",1.90,4,"Metal de transicion radiactivo.",5,7],
+  [44,"Ru","Rutenio",101.07,"m",2.20,4,"Metal de transicion.",5,8],
+  [45,"Rh","Rodio",102.91,"m",2.28,3,"Metal de transicion.",5,9],
+  [46,"Pd","Paladio",106.42,"m",2.20,2,"Metal de transicion.",5,10],
+  [47,"Ag","Plata",107.87,"m",1.93,1,"Metal noble conductor.",5,11],
+  [48,"Cd","Cadmio",112.41,"m",1.69,2,"Metal de transicion.",5,12],
+  [49,"In","Indio",114.82,"m",1.78,3,"Metal blando.",5,13],
+  [50,"Sn","Estano",118.71,"m",1.96,4,"Metal post-transicion.",5,14],
+  [51,"Sb","Antimonio",121.76,"mt",2.05,3,"Metaloide.",5,15],
+  [52,"Te","Telurio",127.60,"mt",2.10,2,"Metaloide.",5,16],
+  [53,"I","Yodo",126.90,"nm",2.66,1,"Halogeno.",5,17],
+  [54,"Xe","Xenon",131.29,"ng",2.60,2,"Gas noble.",5,18],
+  [55,"Cs","Cesio",132.91,"m",0.79,1,"Metal alcalino.",6,1],
+  [56,"Ba","Bario",137.33,"m",0.89,2,"Metal alcalinoterreo.",6,2],
+  [57,"La","Lantano",138.91,"m",1.10,3,"Lantanido.",8,4],
+  [58,"Ce","Cerio",140.12,"m",1.12,4,"Lantanido.",8,5],
+  [59,"Pr","Praseodimio",140.91,"m",1.13,3,"Lantanido.",8,6],
+  [60,"Nd","Neodimio",144.24,"m",1.14,3,"Lantanido.",8,7],
+  [61,"Pm","Prometio",145,"m",1.13,3,"Lantanido radiactivo.",8,8],
+  [62,"Sm","Samario",150.36,"m",1.17,3,"Lantanido.",8,9],
+  [63,"Eu","Europio",151.96,"m",1.20,2,"Lantanido.",8,10],
+  [64,"Gd","Gadolinio",157.25,"m",1.20,3,"Lantanido.",8,11],
+  [65,"Tb","Terbio",158.93,"m",1.20,3,"Lantanido.",8,12],
+  [66,"Dy","Disprosio",162.50,"m",1.22,3,"Lantanido.",8,13],
+  [67,"Ho","Holmio",164.93,"m",1.23,3,"Lantanido.",8,14],
+  [68,"Er","Erbio",167.26,"m",1.24,3,"Lantanido.",8,15],
+  [69,"Tm","Tulio",168.93,"m",1.25,3,"Lantanido.",8,16],
+  [70,"Yb","Iterbio",173.05,"m",1.10,2,"Lantanido.",8,17],
+  [71,"Lu","Lutecio",174.97,"m",1.27,3,"Lantanido.",8,18],
+  [72,"Hf","Hafnio",178.49,"m",1.30,4,"Metal de transicion.",6,4],
+  [73,"Ta","Tantalio",180.95,"m",1.50,5,"Metal de transicion.",6,5],
+  [74,"W","Wolframio",183.84,"m",2.36,6,"Metal de alto punto de fusion.",6,6],
+  [75,"Re","Renio",186.21,"m",1.90,4,"Metal de transicion.",6,7],
+  [76,"Os","Osmio",190.23,"m",2.20,4,"Metal muy denso.",6,8],
+  [77,"Ir","Iridio",192.22,"m",2.20,4,"Metal resistente a la corrosion.",6,9],
+  [78,"Pt","Platino",195.08,"m",2.28,2,"Metal noble.",6,10],
+  [79,"Au","Oro",196.97,"m",2.54,1,"Metal noble.",6,11],
+  [80,"Hg","Mercurio",200.59,"m",2.00,2,"Metal liquido a temperatura ambiente.",6,12],
+  [81,"Tl","Talio",204.38,"m",1.62,1,"Metal post-transicion.",6,13],
+  [82,"Pb","Plomo",207.2,"m",2.33,2,"Metal post-transicion.",6,14],
+  [83,"Bi","Bismuto",208.98,"m",2.02,3,"Metal post-transicion.",6,15],
+  [84,"Po","Polonio",209,"mt",2.00,2,"Metaloide radiactivo.",6,16],
+  [85,"At","Astato",210,"nm",2.20,1,"Halogeno radiactivo.",6,17],
+  [86,"Rn","Radon",222,"ng",0.0,0,"Gas noble radiactivo.",6,18],
+  [87,"Fr","Francio",223,"m",0.70,1,"Metal alcalino radiactivo.",7,1],
+  [88,"Ra","Radio",226,"m",0.90,2,"Metal alcalinoterreo radiactivo.",7,2],
+  [89,"Ac","Actinio",227,"m",1.10,3,"Actinido radiactivo.",9,4],
+  [90,"Th","Torio",232.04,"m",1.30,4,"Actinido radiactivo.",9,5],
+  [91,"Pa","Protactinio",231.04,"m",1.50,5,"Actinido radiactivo.",9,6],
+  [92,"U","Uranio",238.03,"m",1.38,6,"Actinido radiactivo.",9,7],
+  [93,"Np","Neptunio",237,"m",1.36,5,"Actinido.",9,8],
+  [94,"Pu","Plutonio",244,"m",1.28,4,"Actinido.",9,9],
+  [95,"Am","Americio",243,"m",1.30,3,"Actinido.",9,10],
+  [96,"Cm","Curio",247,"m",1.30,3,"Actinido.",9,11],
+  [97,"Bk","Berkelio",247,"m",1.30,3,"Actinido.",9,12],
+  [98,"Cf","Californio",251,"m",1.30,3,"Actinido.",9,13],
+  [99,"Es","Einstenio",252,"m",1.30,3,"Actinido.",9,14],
+  [100,"Fm","Fermio",257,"m",1.30,3,"Actinido.",9,15],
+  [101,"Md","Mendelevio",258,"m",1.30,3,"Actinido.",9,16],
+  [102,"No","Nobelio",259,"m",1.30,2,"Actinido.",9,17],
+  [103,"Lr","Lawrencio",266,"m",1.30,3,"Actinido.",9,18],
+  [104,"Rf","Rutherfordio",267,"m",0.0,4,"Elemento superpesado.",7,4],
+  [105,"Db","Dubnio",268,"m",0.0,5,"Elemento superpesado.",7,5],
+  [106,"Sg","Seaborgio",269,"m",0.0,6,"Elemento superpesado.",7,6],
+  [107,"Bh","Bohrio",270,"m",0.0,7,"Elemento superpesado.",7,7],
+  [108,"Hs","Hassio",277,"m",0.0,8,"Elemento superpesado.",7,8],
+  [109,"Mt","Meitnerio",278,"m",0.0,3,"Elemento superpesado.",7,9],
+  [110,"Ds","Darmstatio",281,"m",0.0,4,"Elemento superpesado.",7,10],
+  [111,"Rg","Roentgenio",282,"m",0.0,3,"Elemento superpesado.",7,11],
+  [112,"Cn","Copernicio",285,"m",0.0,2,"Elemento superpesado.",7,12],
+  [113,"Nh","Nihonio",286,"m",0.0,3,"Elemento post-transicion.",7,13],
+  [114,"Fl","Flerovio",289,"m",0.0,4,"Elemento post-transicion.",7,14],
+  [115,"Mc","Moscovio",290,"m",0.0,3,"Elemento post-transicion.",7,15],
+  [116,"Lv","Livermorio",293,"m",0.0,2,"Elemento post-transicion.",7,16],
+  [117,"Ts","Teneso",294,"nm",0.0,1,"Halogeno superpesado.",7,17],
+  [118,"Og","Oganeson",294,"ng",0.0,0,"Gas noble superpesado.",7,18]
 ];
 
+const ELS = RAW.map(([z,s,n,w,cat,en,v,d,row,col]) => ({z,s,n,w,cat,en,v,d,row,col}));
 let active = ELS.find(e => e.z === 8) || ELS[0];
 let conf1 = null, conf2 = null;
 
 const qEl = document.getElementById("q");
-const ptEl = document.getElementById("pt");
+const ptBoard = document.getElementById("ptBoard");
 const detailEl = document.getElementById("detailBox");
 
-function isMetal(t){ return t.toLowerCase().includes("metal") && !t.toLowerCase().includes("no metal") && !t.toLowerCase().includes("metaloide"); }
+function catLabel(cat){
+  if(cat === "mt") return "Metaloide";
+  if(cat === "nm") return "No metal";
+  if(cat === "ng") return "Gas noble";
+  return "Metal";
+}
 
 function renderDetail(){
+  const semi = active.cat === "mt" ? active.s : "-";
   detailEl.innerHTML = `
     <div class="info-top"><span class="ring"></span><span>${active.n} (Z = ${active.z})</span></div>
     <div class="meta">Peso atómico: ${active.w} u</div>
-    <div class="meta">Tipo: ${active.t} | Semiconductor: ${active.semi}</div>
+    <div class="meta">Tipo: ${catLabel(active.cat)} | Semiconductor: ${semi}</div>
     <div class="desc">${active.d}</div>
   `;
 }
@@ -134,7 +245,7 @@ function renderSlots(){
   if(conf1){
     s1T.textContent = `Elemento 1 — ${conf1.s}`;
     s1S.textContent = `${conf1.n} (Z = ${conf1.z}) · χ = ${conf1.en}`;
-    s1H.textContent = `Tipo: ${conf1.t} · Peso: ${conf1.w} u`;
+    s1H.textContent = `Tipo: ${catLabel(conf1.cat)} · Peso: ${conf1.w} u`;
   } else {
     s1T.textContent = "Elemento 1 —";
     s1S.textContent = "Sin confirmar";
@@ -144,7 +255,7 @@ function renderSlots(){
   if(conf2){
     s2T.textContent = `Elemento 2 — ${conf2.s}`;
     s2S.textContent = `${conf2.n} (Z = ${conf2.z}) · χ = ${conf2.en}`;
-    s2H.textContent = `Tipo: ${conf2.t} · Peso: ${conf2.w} u`;
+    s2H.textContent = `Tipo: ${catLabel(conf2.cat)} · Peso: ${conf2.w} u`;
   } else {
     s2T.textContent = "Elemento 2 —";
     s2S.textContent = "Sin confirmar";
@@ -159,7 +270,7 @@ function renderSlots(){
     return;
   }
   const diff = Math.abs(conf1.en - conf2.en);
-  const m1 = isMetal(conf1.t), m2 = isMetal(conf2.t);
+  const m1 = conf1.cat === "m", m2 = conf2.cat === "m";
   let tipo = "Covalente no polar";
   if(m1 && m2) tipo = "Enlace metálico";
   else if(diff >= 1.7 || (m1 !== m2)) tipo = "Enlace iónico";
@@ -168,18 +279,73 @@ function renderSlots(){
   bDetail.textContent = `Δχ = ${diff.toFixed(2)} · ${conf1.n} (χ ${conf1.en}) y ${conf2.n} (χ ${conf2.en})`;
 }
 
+function makeTile(el, matches){
+  const b = document.createElement("button");
+  b.type = "button";
+  const cls = ["el-tile",
+    el.cat === "mt" ? "cat-metalloid" :
+    el.cat === "nm" ? "cat-nonmetal" :
+    el.cat === "ng" ? "cat-noble" : "cat-metal"
+  ];
+  if(active.z === el.z) cls.push("active");
+  if(!matches) cls.push("dim");
+  b.className = cls.join(" ");
+  b.innerHTML = `<div class="el-z">${el.z}</div><div class="el-s">${el.s}</div>`;
+  b.onclick = () => { active = el; renderDetail(); renderGrid(); };
+  return b;
+}
+
 function renderGrid(){
   const f = qEl.value.trim().toLowerCase();
-  ptEl.innerHTML = "";
-  ELS.filter(e => !f || String(e.z) === f || e.s.toLowerCase().includes(f) || e.n.toLowerCase().includes(f) || String(e.w).includes(f))
-     .forEach(e => {
-       const b = document.createElement("button");
-       b.type = "button";
-       b.className = "el-cell" + (active.z === e.z ? " sel" : "");
-       b.innerHTML = `<div class="el-z">${e.z}</div><div class="el-s">${e.s}</div>`;
-       b.onclick = () => { active = e; renderDetail(); renderGrid(); };
-       ptEl.appendChild(b);
-     });
+  const isMatch = (e) => !f || String(e.z) === f || e.s.toLowerCase().includes(f) || e.n.toLowerCase().includes(f) || String(e.w).includes(f);
+  const byPos = new Map(ELS.map(e => [`${e.row}-${e.col}`, e]));
+
+  ptBoard.innerHTML = "";
+  for(let r = 1; r <= 7; r++){
+    const rowDiv = document.createElement("div");
+    rowDiv.className = "pt-row";
+    for(let c = 1; c <= 18; c++){
+      if(r === 6 && c === 3){
+        const sp = document.createElement("div");
+        sp.className = "pt-spacer";
+        sp.textContent = "57-71";
+        rowDiv.appendChild(sp);
+        continue;
+      }
+      if(r === 7 && c === 3){
+        const sp = document.createElement("div");
+        sp.className = "pt-spacer";
+        sp.textContent = "89-103";
+        rowDiv.appendChild(sp);
+        continue;
+      }
+      const el = byPos.get(`${r}-${c}`);
+      if(el){
+        rowDiv.appendChild(makeTile(el, isMatch(el)));
+      } else {
+        rowDiv.appendChild(document.createElement("div"));
+      }
+    }
+    ptBoard.appendChild(rowDiv);
+  }
+
+  const gap = document.createElement("div");
+  gap.className = "pt-gap";
+  ptBoard.appendChild(gap);
+
+  for(let r = 8; r <= 9; r++){
+    const rowDiv = document.createElement("div");
+    rowDiv.className = "pt-row";
+    for(let c = 1; c <= 18; c++){
+      const el = byPos.get(`${r}-${c}`);
+      if(el){
+        rowDiv.appendChild(makeTile(el, isMatch(el)));
+      } else {
+        rowDiv.appendChild(document.createElement("div"));
+      }
+    }
+    ptBoard.appendChild(rowDiv);
+  }
 }
 
 document.getElementById("c1").onclick = () => { conf1 = active; renderSlots(); };
