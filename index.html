@@ -3,92 +3,192 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Enlaces Químicos</title>
+<title>Tabla Periodica y Enlaces Quimicos</title>
 <style>
-*{box-sizing:border-box;font-family:system-ui,Segoe UI,sans-serif}
-body{margin:0;background:#0f172a;color:#f8fafc;padding:14px}
-.wrap{max-width:920px;margin:0 auto;display:grid;gap:14px}
-header,.box{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:14px}
-header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-header img{width:48px;height:48px;border-radius:10px;object-fit:cover}
-.grid{display:grid;grid-template-columns:1fr;gap:14px}
-@media(min-width:740px){.grid{grid-template-columns:1.1fr .9fr}}
-input,select,button{width:100%;padding:10px;border-radius:10px;border:1px solid #334155;background:#0b1220;color:#f8fafc;font-size:.95rem}
-.els{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:8px;max-height:290px;overflow:auto;margin-top:10px}
-.el{text-align:left;cursor:pointer;padding:8px}
-.el.on{border-color:#22c55e;background:#132a22}
-.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-button.go{background:#38bdf8;color:#06131e;font-weight:700;border:none;cursor:pointer;flex:1}
-button.clr{background:transparent;cursor:pointer;width:auto}
-.res{margin-top:10px;background:#0b1220;border:1px solid #334155;border-radius:10px;padding:12px}
-.tag{display:inline-block;padding:4px 10px;border-radius:99px;background:#172554;color:#93c5fd;font-weight:700;font-size:.85rem}
-.form{font-size:1.35rem;font-weight:800;color:#22c55e;margin:6px 0}
-.mut{color:#94a3b8;font-size:.88rem}
+*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+body{margin:0;background:#111214;color:#f3f4f6;padding:14px}
+.app{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.hdr{display:flex;align-items:center;gap:10px}
+.hdr img{width:34px;height:34px;border-radius:8px;object-fit:contain;background:#1b1d21;padding:2px}
+.hdr h1{margin:0;font-size:1.3rem;font-weight:700;letter-spacing:-.2px}
+.search{width:100%;background:transparent;border:none;border-bottom:1px solid #2b2f36;color:#d1d5db;padding:8px 4px;font-size:.98rem;outline:none}
+.search:focus{border-bottom-color:#60a5fa}
+.confirm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-c{background:#181a1f;color:#f3f4f6;border:1px solid #262930;border-radius:14px;padding:11px 12px;font-size:.95rem;font-weight:600;cursor:pointer}
+.btn-c:hover{border-color:#4b5563}
+.card{background:#15171b;border:1px solid #262930;border-radius:12px;padding:12px 14px}
+.status-box{min-height:66px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.status-title{font-weight:700;font-size:1rem}
+.info-top{display:flex;align-items:center;gap:8px;font-size:1.15rem;font-weight:700}
+.ring{width:14px;height:14px;border-radius:50%;border:2.5px solid #e5e7eb;display:inline-block}
+.meta{color:#d1d5db;font-size:.92rem;margin-top:4px}
+.desc{color:#9ca3af;font-size:.92rem;margin-top:4px;line-height:1.35}
+.slot{border-radius:12px;padding:12px 14px;background:#14171a}
+.slot-1{border:1.5px solid #22c55e}
+.slot-2{border:1.5px solid #eab308}
+.slot-title{font-weight:700;font-size:1.05rem;margin-bottom:4px}
+.slot-sub{font-weight:600;font-size:.95rem}
+.slot-hint{color:#9ca3af;font-size:.88rem;margin-top:2px}
+.pt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:6px;margin-top:4px}
+.el-cell{background:#181a1f;border:1px solid #262930;border-radius:8px;padding:6px 4px;text-align:center;cursor:pointer;color:#f3f4f6}
+.el-cell:hover{border-color:#60a5fa}
+.el-cell.sel{outline:2px solid #38bdf8}
+.el-z{font-size:.7rem;color:#9ca3af;line-height:1}
+.el-s{font-size:1.05rem;font-weight:700;line-height:1.25}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
+<div class="app">
+  <div class="hdr">
     <img src="Mascota.png" alt="Mascota" onerror="this.style.display='none'" />
-    <div><b>Enlaces Químicos</b><div class="mut">Elige dos elementos para calcular fórmula y tipo de enlace</div></div>
-  </header>
-  <div class="grid">
-    <div class="box">
-      <input id="q" placeholder="Buscar elemento, símbolo o #..." />
-      <div id="els" class="els"></div>
-    </div>
-    <div class="box">
-      <div class="mut">Elemento 1</div><select id="a"></select>
-      <div class="mut" style="margin-top:8px">Elemento 2</div><select id="b"></select>
-      <div class="row">
-        <button class="go" id="calc">Calcular enlace</button>
-        <button class="clr" id="clr">Limpiar</button>
-      </div>
-      <div id="res" class="res"></div>
-    </div>
+    <h1>Tabla Periodica y Enlaces Quimicos</h1>
   </div>
+
+  <input id="q" class="search" type="text" placeholder="Buscar por Z, símbolo, nombre o peso (ej. 15.999)" />
+
+  <div class="confirm-row">
+    <button id="c1" class="btn-c" type="button">Confirmar Elem 1</button>
+    <button id="c2" class="btn-c" type="button">Confirmar Elem 2</button>
+  </div>
+
+  <div id="bondBox" class="card status-box">
+    <div id="bondTitle" class="status-title">Clasificación pendiente: confirma Elemento 1 y Elemento 2.</div>
+    <div id="bondDetail" class="desc"></div>
+  </div>
+
+  <div id="detailBox" class="card"></div>
+
+  <div class="slot slot-1">
+    <div id="s1Title" class="slot-title">Elemento 1 —</div>
+    <div id="s1Sub" class="slot-sub">Sin confirmar</div>
+    <div id="s1Hint" class="slot-hint">Toca un elemento y pulsa 'Confirmar Elem 1'.</div>
+  </div>
+
+  <div class="slot slot-2">
+    <div id="s2Title" class="slot-title">Elemento 2 —</div>
+    <div id="s2Sub" class="slot-sub">Sin confirmar</div>
+    <div id="s2Hint" class="slot-hint">Toca un elemento y pulsa 'Confirmar Elem 2'.</div>
+  </div>
+
+  <div id="pt" class="pt-grid"></div>
 </div>
+
 <script>
-const E=[
-  {z:1,s:"H",n:"Hidrógeno",x:2.20,t:"nm",v:1},{z:3,s:"Li",n:"Litio",x:0.98,t:"m",v:1},
-  {z:4,s:"Be",n:"Berilio",x:1.57,t:"m",v:2},{z:6,s:"C",n:"Carbono",x:2.55,t:"nm",v:4},
-  {z:7,s:"N",n:"Nitrógeno",x:3.04,t:"nm",v:3},{z:8,s:"O",n:"Oxígeno",x:3.44,t:"nm",v:2},
-  {z:9,s:"F",n:"Flúor",x:3.98,t:"nm",v:1},{z:11,s:"Na",n:"Sodio",x:0.93,t:"m",v:1},
-  {z:12,s:"Mg",n:"Magnesio",x:1.31,t:"m",v:2},{z:13,s:"Al",n:"Aluminio",x:1.61,t:"m",v:3},
-  {z:15,s:"P",n:"Fósforo",x:2.19,t:"nm",v:3},{z:16,s:"S",n:"Azufre",x:2.58,t:"nm",v:2},
-  {z:17,s:"Cl",n:"Cloro",x:3.16,t:"nm",v:1},{z:19,s:"K",n:"Potasio",x:0.82,t:"m",v:1},
-  {z:20,s:"Ca",n:"Calcio",x:1.00,t:"m",v:2},{z:26,s:"Fe",n:"Hierro",x:1.83,t:"m",v:2},
-  {z:29,s:"Cu",n:"Cobre",x:1.90,t:"m",v:2},{z:35,s:"Br",n:"Bromo",x:2.96,t:"nm",v:1}
+const ELS = [
+  {z:1,s:"H",n:"Hidrogeno",w:1.008,t:"No metal",semi:"-",en:2.20,v:1,d:"Elemento mas ligero y abundante del universo."},
+  {z:3,s:"Li",n:"Litio",w:6.94,t:"Metal alcalino",semi:"-",en:0.98,v:1,d:"Metal blando plateado usado en baterias."},
+  {z:4,s:"Be",n:"Berilio",w:9.012,t:"Metal alcalinoterreo",semi:"-",en:1.57,v:2,d:"Metal ligero y rigido con alto punto de fusion."},
+  {z:6,s:"C",n:"Carbono",w:12.011,t:"No metal",semi:"-",en:2.55,v:4,d:"Base de la quimica organica y formas alotropicas."},
+  {z:7,s:"N",n:"Nitrogeno",w:14.007,t:"No metal",semi:"-",en:3.04,v:3,d:"Gas principal de la atmosfera terrestre."},
+  {z:8,s:"O",n:"Oxigeno",w:15.999,t:"No metal",semi:"-",en:3.44,v:2,d:"No metal reactivo esencial para la respiracion y la combustion."},
+  {z:9,s:"F",n:"Fluor",w:18.998,t:"Halogeno",semi:"-",en:3.98,v:1,d:"Elemento mas electronegativo y altamente reactivo."},
+  {z:11,s:"Na",n:"Sodio",w:22.990,t:"Metal alcalino",semi:"-",en:0.93,v:1,d:"Metal alcalino muy reactivo en agua."},
+  {z:12,s:"Mg",n:"Magnesio",w:24.305,t:"Metal alcalinoterreo",semi:"-",en:1.31,v:2,d:"Metal ligero presente en clorofila y aleaciones."},
+  {z:13,s:"Al",n:"Aluminio",w:26.982,t:"Metal del bloque p",semi:"-",en:1.61,v:3,d:"Metal ligero, resistente a la corrosion y conductor."},
+  {z:14,s:"Si",n:"Silicio",w:28.085,t:"Metaloide",semi:"Si",en:1.90,v:4,d:"Semiconductor fundamental en electronica."},
+  {z:15,s:"P",n:"Fosforo",w:30.974,t:"No metal",semi:"-",en:2.19,v:3,d:"No metal esencial en biomoleculas y fertilizantes."},
+  {z:16,s:"S",n:"Azufre",w:32.06,t:"No metal",semi:"-",en:2.58,v:2,d:"No metal amarillo conocido desde la antiguedad."},
+  {z:17,s:"Cl",n:"Cloro",w:35.45,t:"Halogeno",semi:"-",en:3.16,v:1,d:"Halogeno usado en desinfeccion y sales."},
+  {z:19,s:"K",n:"Potasio",w:39.098,t:"Metal alcalino",semi:"-",en:0.82,v:1,d:"Metal alcalino reactivo y vital en sistemas biologicos."},
+  {z:20,s:"Ca",n:"Calcio",w:40.078,t:"Metal alcalinoterreo",semi:"-",en:1.00,v:2,d:"Metal alcalinoterreo abundante en huesos y rocas."},
+  {z:21,s:"Sc",n:"Escandio",w:44.956,t:"Metal de transicion",semi:"-",en:1.36,v:3,d:"Metal de transicion ligero usado en aleaciones especiales."},
+  {z:22,s:"Ti",n:"Titanio",w:47.867,t:"Metal de transicion",semi:"-",en:1.54,v:4,d:"Metal resistente, ligero y biocompatible."},
+  {z:23,s:"V",n:"Vanadio",w:50.942,t:"Metal de transicion",semi:"-",en:1.63,v:5,d:"Metal de transicion empleado en aceros de alta resistencia."},
+  {z:24,s:"Cr",n:"Cromo",w:51.996,t:"Metal de transicion",semi:"-",en:1.66,v:3,d:"Metal duro y brillante resistente a la oxidacion."},
+  {z:25,s:"Mn",n:"Manganeso",w:54.938,t:"Metal de transicion",semi:"-",en:1.55,v:2,d:"Metal de transicion clave en aleaciones de acero."},
+  {z:26,s:"Fe",n:"Hierro",w:55.845,t:"Metal de transicion",semi:"-",en:1.83,v:2,d:"Metal de transicion base del acero y magnetismo."},
+  {z:27,s:"Co",n:"Cobalto",w:58.933,t:"Metal de transicion",semi:"-",en:1.88,v:2,d:"Metal de transicion usado en imanes y baterias."},
+  {z:28,s:"Ni",n:"Niquel",w:58.693,t:"Metal de transicion",semi:"-",en:1.91,v:2,d:"Metal plateado resistente a la corrosion."},
+  {z:29,s:"Cu",n:"Cobre",w:63.546,t:"Metal de transicion",semi:"-",en:1.90,v:2,d:"Excelente conductor electrico y termico."},
+  {z:30,s:"Zn",n:"Zinc",w:65.38,t:"Metal de transicion",semi:"-",en:1.65,v:2,d:"Metal usado para galvanizar y proteger contra corrosion."},
+  {z:35,s:"Br",n:"Bromo",w:79.904,t:"Halogeno",semi:"-",en:2.96,v:1,d:"Halogeno liquido rojizo a temperatura ambiente."},
+  {z:53,s:"I",n:"Yodo",w:126.90,t:"Halogeno",semi:"-",en:2.66,v:1,d:"Halogeno violeta oscuro relevante en salud y quimica."}
 ];
-const els=document.getElementById("els"),sa=document.getElementById("a"),sb=document.getElementById("b"),q=document.getElementById("q"),res=document.getElementById("res");
-const mcd=(x,y)=>y?mcd(y,x%y):x;
-const sub=n=>n===1?"":String(n).split("").map(d=>"₀₁₂₃₄₅₆₇₈₉"[d]).join("");
-function form(u,v){if(u.s===v.s)return u.s+"₂";const d=mcd(u.v,v.v);return u.s+sub(v.v/d)+v.s+sub(u.v/d)}
-E.forEach((e,i)=>{const t=`${e.z}. ${e.n} (${e.s}) · χ ${e.x}`;sa.add(new Option(t,i));sb.add(new Option(t,i))});
-sa.value="7";sb.value="12";
-function draw(){
-  const f=q.value.trim().toLowerCase();els.innerHTML="";
-  E.filter(e=>!f||e.n.toLowerCase().includes(f)||e.s.toLowerCase().includes(f)||String(e.z)===f).forEach(e=>{
-    const i=E.indexOf(e),b=document.createElement("button");
-    b.type="button";b.className="el"+(sa.value==i||sb.value==i?" on":"");
-    b.innerHTML=`<div class="mut">#${e.z} · χ ${e.x}</div><b>${e.s}</b><div class="mut">${e.n}</div>`;
-    b.onclick=()=>{if(sa.value!==String(i)){sa.value=sb.value;sb.value=String(i);draw();run()}};
-    els.appendChild(b);
-  });
+
+let active = ELS.find(e => e.z === 8) || ELS[0];
+let conf1 = null, conf2 = null;
+
+const qEl = document.getElementById("q");
+const ptEl = document.getElementById("pt");
+const detailEl = document.getElementById("detailBox");
+
+function isMetal(t){ return t.toLowerCase().includes("metal") && !t.toLowerCase().includes("no metal") && !t.toLowerCase().includes("metaloide"); }
+
+function renderDetail(){
+  detailEl.innerHTML = `
+    <div class="info-top"><span class="ring"></span><span>${active.n} (Z = ${active.z})</span></div>
+    <div class="meta">Peso atómico: ${active.w} u</div>
+    <div class="meta">Tipo: ${active.t} | Semiconductor: ${active.semi}</div>
+    <div class="desc">${active.d}</div>
+  `;
 }
-function run(){
-  const u=E[sa.value],v=E[sb.value],d=Math.abs(u.x-v.x);
-  let tipo="Enlace Covalente No Polar",txt="Comparten electrones de forma pareja.";
-  if(u.t==="m"&&v.t==="m"){tipo="Enlace Metálico";txt="Ambos son metales con electrones deslocalizados."}
-  else if(d>=1.7||u.t!==v.t){tipo="Enlace Iónico";txt="Transferencia electrónica entre menor y mayor electronegatividad."}
-  else if(d>=0.4){tipo="Enlace Covalente Polar";txt="Compartición desigual de electrones."}
-  const [p,s]=u.x<=v.x?[u,v]:[v,u];
-  res.innerHTML=`<span class="tag">${tipo}</span><div class="form">${form(p,s)}</div><div><b>${u.n}</b> (${u.x}) y <b>${v.n}</b> (${v.x}) · Δχ = <b>${d.toFixed(2)}</b></div><div class="mut">${txt}</div>`;
+
+function renderSlots(){
+  const s1T = document.getElementById("s1Title");
+  const s1S = document.getElementById("s1Sub");
+  const s1H = document.getElementById("s1Hint");
+  const s2T = document.getElementById("s2Title");
+  const s2S = document.getElementById("s2Sub");
+  const s2H = document.getElementById("s2Hint");
+
+  if(conf1){
+    s1T.textContent = `Elemento 1 — ${conf1.s}`;
+    s1S.textContent = `${conf1.n} (Z = ${conf1.z}) · χ = ${conf1.en}`;
+    s1H.textContent = `Tipo: ${conf1.t} · Peso: ${conf1.w} u`;
+  } else {
+    s1T.textContent = "Elemento 1 —";
+    s1S.textContent = "Sin confirmar";
+    s1H.textContent = "Toca un elemento y pulsa 'Confirmar Elem 1'.";
+  }
+
+  if(conf2){
+    s2T.textContent = `Elemento 2 — ${conf2.s}`;
+    s2S.textContent = `${conf2.n} (Z = ${conf2.z}) · χ = ${conf2.en}`;
+    s2H.textContent = `Tipo: ${conf2.t} · Peso: ${conf2.w} u`;
+  } else {
+    s2T.textContent = "Elemento 2 —";
+    s2S.textContent = "Sin confirmar";
+    s2H.textContent = "Toca un elemento y pulsa 'Confirmar Elem 2'.";
+  }
+
+  const bTitle = document.getElementById("bondTitle");
+  const bDetail = document.getElementById("bondDetail");
+  if(!conf1 || !conf2){
+    bTitle.textContent = "Clasificación pendiente: confirma Elemento 1 y Elemento 2.";
+    bDetail.textContent = "";
+    return;
+  }
+  const diff = Math.abs(conf1.en - conf2.en);
+  const m1 = isMetal(conf1.t), m2 = isMetal(conf2.t);
+  let tipo = "Covalente no polar";
+  if(m1 && m2) tipo = "Enlace metálico";
+  else if(diff >= 1.7 || (m1 !== m2)) tipo = "Enlace iónico";
+  else if(diff >= 0.4) tipo = "Covalente polar";
+  bTitle.textContent = `${tipo} (${conf1.s} + ${conf2.s})`;
+  bDetail.textContent = `Δχ = ${diff.toFixed(2)} · ${conf1.n} (χ ${conf1.en}) y ${conf2.n} (χ ${conf2.en})`;
 }
-document.getElementById("calc").onclick=run;
-document.getElementById("clr").onclick=()=>{q.value="";draw();res.innerHTML='<div class="mut">Listo. Selecciona dos elementos.</div>'};
-q.oninput=draw;sa.onchange=()=>{draw();run()};sb.onchange=()=>{draw();run()};
-draw();run();
+
+function renderGrid(){
+  const f = qEl.value.trim().toLowerCase();
+  ptEl.innerHTML = "";
+  ELS.filter(e => !f || String(e.z) === f || e.s.toLowerCase().includes(f) || e.n.toLowerCase().includes(f) || String(e.w).includes(f))
+     .forEach(e => {
+       const b = document.createElement("button");
+       b.type = "button";
+       b.className = "el-cell" + (active.z === e.z ? " sel" : "");
+       b.innerHTML = `<div class="el-z">${e.z}</div><div class="el-s">${e.s}</div>`;
+       b.onclick = () => { active = e; renderDetail(); renderGrid(); };
+       ptEl.appendChild(b);
+     });
+}
+
+document.getElementById("c1").onclick = () => { conf1 = active; renderSlots(); };
+document.getElementById("c2").onclick = () => { conf2 = active; renderSlots(); };
+qEl.oninput = renderGrid;
+
+renderDetail();
+renderSlots();
+renderGrid();
 </script>
 </body>
 </html>
