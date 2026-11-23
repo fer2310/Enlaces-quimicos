@@ -8,9 +8,9 @@
 *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
 .app{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
-.hdr{display:flex;align-items:center;gap:10px}
-.hdr img{width:34px;height:34px;border-radius:8px;object-fit:contain;background:#181a1f;padding:2px}
-.hdr h1{margin:0;font-size:clamp(1.05rem,4vw,1.35rem);font-weight:700;letter-spacing:-.2px}
+.hdr{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hdr img{width:62px;height:62px;border-radius:12px;object-fit:contain;background:#181a1f;padding:4px;border:1px solid #2b2f36;flex-shrink:0}
+.hdr h1{margin:0;font-size:clamp(1.45rem,5vw,2.15rem);font-weight:800;letter-spacing:-.3px;line-height:1.15}
 .search{width:100%;background:transparent;border:none;border-bottom:1px solid #2b2f36;color:#d1d5db;padding:8px 4px;font-size:.95rem;outline:none}
 .search:focus{border-bottom-color:#60a5fa}
 .confirm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -47,6 +47,7 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
 .el-s{font-size:.9rem;font-weight:700;line-height:1.1}
 @media (max-width:520px){
   body{padding:10px}
+  .hdr img{width:54px;height:54px}
   .confirm-row{gap:8px}
   .btn-c{padding:10px 8px;font-size:.86rem}
   .pt-board{min-width:612px}
@@ -59,7 +60,7 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
 <body>
 <div class="app">
   <div class="hdr">
-    <img src="Mascota.png" alt="Mascota" onerror="this.style.display='none'" />
+    <img src="Mascota.png" alt="Chile morron mascota" onerror="this.style.display='none'" />
     <h1>Tabla Periodica y Enlaces Quimicos</h1>
   </div>
 
