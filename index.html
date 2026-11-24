@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabla Periódica y Enlaces Químicos</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #0b0d10;
+      color: #f3f4f6;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      background: #11151c;
+      border-bottom: 1px solid #232a36;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid #2c3545;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .btn-donar {
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      color: #ffffff;
+      border: 1px solid #4ade80;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .btn-donar:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 0 24px rgba(74, 222, 128, 0.55);
+    }
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 999;
+    }
+    .modal-box {
+      background: #141922;
+      border: 1px solid #2b3444;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+    }
+    .modal-box h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #86efac;
+    }
+    .modal-box p {
+      margin: 0 0 14px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #d1d5db;
+    }
+    .cuenta-card {
+      background: #0d1016;
+      border: 1px solid #252d3b;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .acciones {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-copiar, .btn-enlace, .btn-cerrar {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+    .btn-copiar {
+      flex: 1;
+      background: #2563eb;
+      color: #fff;
+    }
+    .btn-enlace {
+      flex: 1;
+      background: #16a34a;
+      color: #fff;
+    }
+    .btn-cerrar {
+      width: 100%;
+      margin-top: 10px;
+      background: #1f2633;
+      color: #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="Mascota.png" alt="Mascota" />
+      <h1>Tabla Periodica y Enlaces Quimicos</h1>
+    </div>
+
+    <button type="button" class="btn-donar" onclick="abrirModal()">
+      Dona por favor, nos ayudaría mucho para seguir dándole más actualización
+    </button>
+  </header>
+
+  <div id="modalDonativos" class="modal-backdrop">
+    <div class="modal-box">
+      <h2>Apoya el proyecto</h2>
+      <p>
+        Dona por favor, nos ayudaría mucho para seguir dándole más actualización y reunir para la licencia de Google Play.
+      </p>
+
+      <div class="cuenta-card">
+        <div><strong>Titular:</strong> Nombre del titular / Profesor</div>
+        <div><strong>Banco / Método:</strong> Nombre del banco o plataforma</div>
+        <div><strong>CLABE / Cuenta:</strong> <span id="numeroCuenta">000000000000000000</span></div>
+      </div>
+
+      <div class="acciones">
+        <button type="button" class="btn-copiar" onclick="copiarDato()">Copiar cuenta</button>
+        <a id="enlaceDonar" class="btn-enlace" href="https://tu-enlace-de-pago.com" target="_blank" rel="noopener noreferrer">Abrir enlace</a>
+      </div>
+
+      <button type="button" class="btn-cerrar" onclick="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <script>
+    function abrirModal() {
+      document.getElementById("modalDonativos").style.display = "flex";
+    }
+    function cerrarModal() {
+      document.getElementById("modalDonativos").style.display = "none";
+    }
+    function copiarDato() {
+      const dato = document.getElementById("numeroCuenta").innerText;
+      navigator.clipboard.writeText(dato).then(() => {
+        alert("Dato copiado: " + dato);
+      });
+    }
+  </script>
+<div id="donativos-topbar-wrap" style="margin-left:auto;display:flex;align-items:center;">
+  <button id="btn-donativos-play" type="button" onclick="window.open('https://tu-enlace-de-donativos.com','_blank','noopener,noreferrer')" style="background:linear-gradient(135deg,#22c55e,#15803d);color:#ffffff;border:1.5px solid #4ade80;border-radius:12px;padding:10px 14px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 0 18px rgba(34,197,94,0.42);max-width:340px;line-height:1.25;text-align:left;">Dona por favor, nos ayudaría mucho para seguir dándole más actualización</button>
+</div>
+<script>
+(function(){
+  const wrap = document.getElementById("donativos-topbar-wrap");
+  if (!wrap) return;
+  const h1 = document.querySelector("h1, h2");
+  const header = (h1 && h1.parentElement) || document.body.firstElementChild;
+  if (header && !header.contains(wrap)) {
+    header.style.display = "flex";
+    header.style.alignItems = "center";
+    header.style.flexWrap = "wrap";
+    header.style.gap = "12px";
+    header.appendChild(wrap);
+  }
+})();
+</script>
+</body>
+</html>
+

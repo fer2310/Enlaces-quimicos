@@ -1,0 +1,15 @@
+[project]
+name = "enlaces-quimicos"
+version = "0.1.0"
+description = "Tabla Periodica y Enlaces Quimicos"
+requires-python = ">=3.9"
+dependencies = ["flet"]
+
+[tool.flet]
+org = "com.fergo.enlacesquimicos"
+product = "EnlacesQuimicos"
+assets_dir = "assets"
+icon = "assets/Mascota.png"
+
+[tool.flet.android]
+activity_orientation = "fullSensor"
