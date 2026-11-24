@@ -8,9 +8,11 @@
 *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
 .app{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
-.hdr{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.hdr img{width:156px;height:156px;border-radius:18px;object-fit:contain;background:#181a1f;padding:8px;border:1.5px solid #374151;flex-shrink:0}
-.hdr h1{margin:0;font-size:clamp(1.3rem,4.2vw,1.8rem);font-weight:700;letter-spacing:-.2px;line-height:1.15}
+.hdr{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hdr img{width:104px;height:104px;border-radius:16px;object-fit:contain;background:#181a1f;padding:6px;border:1.5px solid #374151;flex-shrink:0}
+.hdr h1{margin:0;font-size:clamp(1.25rem,4vw,1.7rem);font-weight:700;letter-spacing:-.2px;line-height:1.15}
+.btn-donar{margin-left:auto;background:linear-gradient(135deg,#22c55e,#15803d);color:#ffffff;border:1.5px solid #4ade80;border-radius:12px;padding:10px 14px;font-size:.82rem;font-weight:700;cursor:pointer;box-shadow:0 0 18px rgba(34,197,94,.42);max-width:340px;line-height:1.25;text-align:left;transition:transform .12s ease,box-shadow .12s ease}
+.btn-donar:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(74,222,128,.6)}
 .search{width:100%;background:transparent;border:none;border-bottom:1px solid #2b2f36;color:#d1d5db;padding:8px 4px;font-size:.95rem;outline:none}
 .search:focus{border-bottom-color:#60a5fa}
 .confirm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -48,7 +50,8 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
 @media (max-width:520px){
   body{padding:10px}
   .hdr{gap:12px}
-  .hdr img{width:124px;height:124px}
+  .hdr img{width:86px;height:86px}
+  .btn-donar{margin-left:0;width:100%;max-width:none}
   .confirm-row{gap:8px}
   .btn-c{padding:10px 8px;font-size:.86rem}
   .pt-board{min-width:612px}
@@ -61,8 +64,9 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
 <body>
 <div class="app">
   <div class="hdr">
-    <img src="Mascota.png" alt="Mascota CU2" onerror="this.style.display='none'" />
+    <img src="Mascota.png" alt="Chile morron mascota" onerror="this.style.display='none'" />
     <h1>Tabla Periodica y Enlaces Quimicos</h1>
+    <button id="btnDonar" class="btn-donar" type="button" onclick="window.open('https://tu-enlace-de-donativos.com','_blank','noopener,noreferrer')">Dona por favor, nos ayudaría mucho para seguir dándole más actualización</button>
   </div>
 
   <input id="q" class="search" type="text" placeholder="Buscar por Z, símbolo, nombre o peso (ej. 15.999)" />
