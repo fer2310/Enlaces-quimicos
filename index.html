@@ -11,8 +11,19 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
 .hdr{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .hdr img{width:104px;height:104px;border-radius:16px;object-fit:contain;background:#181a1f;padding:6px;border:1.5px solid #374151;flex-shrink:0}
 .hdr h1{margin:0;font-size:clamp(1.25rem,4vw,1.7rem);font-weight:700;letter-spacing:-.2px;line-height:1.15}
-.btn-donar{margin-left:auto;background:linear-gradient(135deg,#22c55e,#15803d);color:#ffffff;border:1.5px solid #4ade80;border-radius:12px;padding:10px 14px;font-size:.82rem;font-weight:700;cursor:pointer;box-shadow:0 0 18px rgba(34,197,94,.42);max-width:340px;line-height:1.25;text-align:left;transition:transform .12s ease,box-shadow .12s ease}
-.btn-donar:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(74,222,128,.6)}
+.btn-donar{margin-left:auto;background:linear-gradient(135deg,#22c55e,#15803d);color:#ffffff;border:2px solid #86efac;border-radius:16px;padding:14px 18px;font-size:.92rem;font-weight:800;cursor:pointer;box-shadow:0 0 24px rgba(34,197,94,.48);max-width:460px;line-height:1.3;text-align:left;transition:transform .14s ease,box-shadow .14s ease}
+.btn-donar:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 0 30px rgba(134,239,172,.68)}
+.btn-donar small{display:block;margin-top:4px;font-size:.78rem;font-weight:600;color:#dcfce7;opacity:.96}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.76);align-items:center;justify-content:center;padding:14px;z-index:999}
+.modal-bg.open{display:flex}
+.modal-card{background:#14161a;border:1.5px solid #2f3642;border-radius:16px;max-width:440px;width:100%;max-height:90vh;overflow-y:auto;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.65)}
+.modal-card h2{margin:0 0 6px;font-size:1.15rem;color:#86efac}
+.modal-card p{margin:0 0 12px;font-size:.9rem;line-height:1.4;color:#d1d5db}
+.bank-box{background:#0d0f13;border:1px solid #262b34;border-radius:12px;padding:12px;margin-bottom:12px;font-size:.88rem;line-height:1.55}
+.clabe-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;background:#181b22;padding:8px 10px;border-radius:8px;border:1px solid #2c323d;word-break:break-all}
+.btn-copy{background:#2563eb;color:#fff;border:none;border-radius:8px;padding:7px 11px;font-size:.8rem;font-weight:700;cursor:pointer;flex-shrink:0}
+.donativo-img{width:100%;max-height:260px;object-fit:contain;border-radius:12px;border:1px solid #2b313c;background:#0d0f13;margin-bottom:12px}
+.btn-close-modal{width:100%;background:#1e232c;color:#f3f4f6;border:1px solid #343c4a;border-radius:10px;padding:10px;font-weight:700;cursor:pointer}
 .search{width:100%;background:transparent;border:none;border-bottom:1px solid #2b2f36;color:#d1d5db;padding:8px 4px;font-size:.95rem;outline:none}
 .search:focus{border-bottom-color:#60a5fa}
 .confirm-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -51,7 +62,7 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
   body{padding:10px}
   .hdr{gap:12px}
   .hdr img{width:86px;height:86px}
-  .btn-donar{margin-left:0;width:100%;max-width:none}
+  .btn-donar{margin-left:0;width:100%;max-width:none;padding:14px 16px;font-size:.9rem}
   .confirm-row{gap:8px}
   .btn-c{padding:10px 8px;font-size:.86rem}
   .pt-board{min-width:612px}
@@ -66,7 +77,30 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
   <div class="hdr">
     <img src="Mascota.png" alt="Chile morron mascota" onerror="this.style.display='none'" />
     <h1>Tabla Periodica y Enlaces Quimicos</h1>
-    <button id="btnDonar" class="btn-donar" type="button" onclick="window.open('https://tu-enlace-de-donativos.com','_blank','noopener,noreferrer')">Dona por favor, nos ayudaría mucho para seguir dándole más actualización</button>
+    <button id="btnDonar" class="btn-donar" type="button" onclick="abrirDonativos()">
+      Dona por favor, nos ayudaría mucho para seguir dándole más actualización
+      <small>Apoya para mejorar la app y reunir para la licencia de Google Play · Ver CLABE / imagen</small>
+    </button>
+  </div>
+
+  <div id="modalDonativos" class="modal-bg" onclick="cerrarFondo(event)">
+    <div class="modal-card">
+      <h2>Apoya el proyecto</h2>
+      <p>Tu donativo nos ayuda muchísimo para seguir dándole más actualizaciones, agregar funciones y completar la licencia de Google Play Store.</p>
+
+      <img src="Donativo.png" alt="Imagen de transferencia o QR" class="donativo-img" onerror="this.style.display='none'" />
+
+      <div class="bank-box">
+        <div><strong>Titular:</strong> Nombre del titular / Profesor</div>
+        <div><strong>Banco:</strong> Nombre del banco</div>
+        <div class="clabe-row">
+          <span id="clabeTexto">000000000000000000</span>
+          <button type="button" class="btn-copy" onclick="copiarClabe()">Copiar CLABE</button>
+        </div>
+      </div>
+
+      <button type="button" class="btn-close-modal" onclick="cerrarDonativos()">Cerrar</button>
+    </div>
   </div>
 
   <input id="q" class="search" type="text" placeholder="Buscar por Z, símbolo, nombre o peso (ej. 15.999)" />
@@ -101,6 +135,14 @@ body{margin:0;background:#0d0e11;color:#f3f4f6;padding:12px}
 </div>
 
 <script>
+function abrirDonativos(){ document.getElementById("modalDonativos").classList.add("open"); }
+function cerrarDonativos(){ document.getElementById("modalDonativos").classList.remove("open"); }
+function cerrarFondo(e){ if(e.target.id === "modalDonativos") cerrarDonativos(); }
+function copiarClabe(){
+  const txt = document.getElementById("clabeTexto").textContent.trim();
+  navigator.clipboard.writeText(txt).then(() => alert("CLABE copiada: " + txt));
+}
+
 const RAW = [
   [1,"H","Hidrogeno",1.008,"nm",2.20,1,"No metal ligero y abundante.",1,1],
   [2,"He","Helio",4.0026,"ng",0.0,0,"Gas noble inerte y muy ligero.",1,18],
